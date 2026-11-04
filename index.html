@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>홍길동 | 웹 개발자 이력서</title>
+    <script>
+        // 깜빡임 방지: 페이지가 그려지기 전에 저장된 다크 모드 설정을 적용
+        try {
+            var savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+            }
+        } catch (e) {
+            // 저장소 접근이 막혀 있으면 기본 테마 사용
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // 디자인 토큰: 배경(cream), 본문/포인트(ink)를 한 곳에서 관리
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        cream: '#F3F6EC',
+                        ink: '#2B3640'
+                    },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'Pretendard', '"Noto Sans KR"', 'system-ui', 'sans-serif']
+                    }
+                }
+            }
+        };
+    </script>
+</head>
+<body class="bg-cream text-ink dark:bg-ink dark:text-cream break-words font-sans antialiased">
+
+    <!-- 헤더: 로고, 메뉴, 연락처 버튼, 다크 모드 버튼, 모바일 메뉴 버튼 -->
+    <header class="sticky top-0 z-20 bg-cream/90 dark:bg-ink/90 backdrop-blur border-b border-ink/15 dark:border-cream/15">
+        <div class="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between gap-6">
+            <a href="#intro" class="font-extrabold text-lg tracking-tight">홍길동.</a>
+
+            <!-- 데스크톱 메뉴: 가운데 정렬 -->
+            <nav id="nav-menu" class="hidden md:flex absolute top-20 md:top-0 inset-x-0 md:h-20 md:items-center md:justify-center border-t md:border-0 border-ink/15 dark:border-cream/15 bg-cream dark:bg-ink md:bg-transparent md:pointer-events-none">
+                <ul class="flex flex-col md:flex-row md:items-center gap-4 md:gap-8 px-6 py-4 md:p-0 text-sm font-medium md:pointer-events-auto">
+                    <li><a href="#intro" class="hover:opacity-60 transition-opacity">소개</a></li>
+                    <li><a href="#experience" class="hover:opacity-60 transition-opacity">경력</a></li>
+                    <li><a href="#projects" class="hover:opacity-60 transition-opacity">프로젝트</a></li>
+                    <li><a href="#skills" class="hover:opacity-60 transition-opacity">기술 스택</a></li>
+                    <li><a href="#contact" class="hover:opacity-60 transition-opacity">연락처</a></li>
+                </ul>
+            </nav>
+
+            <div class="flex items-center gap-2">
+                <a href="#contact" class="hidden md:inline-flex px-4 py-2 text-sm font-semibold rounded-md border border-ink dark:border-cream hover:bg-ink hover:text-cream dark:hover:bg-cream dark:hover:text-ink transition-colors">연락하기</a>
+                <button id="theme-toggle" type="button" class="px-3 py-2 text-sm font-medium rounded-md border border-ink/30 dark:border-cream/30 hover:bg-ink/5 dark:hover:bg-cream/10 transition-colors">
+                    다크 모드
+                </button>
+                <button id="menu-toggle" type="button" aria-expanded="false" aria-controls="nav-menu" class="md:hidden px-3 py-2 text-sm font-medium rounded-md border border-ink/30 dark:border-cream/30 hover:bg-ink/5 dark:hover:bg-cream/10 transition-colors">
+                    메뉴
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-6">
+
+        <!-- 소개 (히어로): 데스크톱에서 텍스트와 사진을 좌우로 배치 -->
+        <section id="intro" class="scroll-mt-20 py-20 md:py-28">
+            <div class="grid gap-12 md:grid-cols-2 md:items-center">
+                <div class="relative z-10 order-2 md:order-1">
+                    <span aria-hidden="true" class="block w-16 h-1.5 bg-ink dark:bg-cream mb-8"></span>
+                    <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight tracking-tight mb-6">
+                        저는 홍길동,<br>웹 개발자입니다
+                    </h1>
+                    <p class="text-base md:text-lg leading-relaxed text-ink/70 dark:text-cream/70 max-w-md mb-8">
+                        사용자가 편하게 쓸 수 있는 웹 화면을 만드는 것을 좋아합니다. 작은 부분까지 꼼꼼하게 확인하는 습관이 있습니다.
+                    </p>
+                    <a href="#contact" class="inline-flex items-center px-6 py-3 rounded-md bg-ink text-cream dark:bg-cream dark:text-ink font-semibold hover:opacity-85 transition-opacity mb-10">
+                        연락하기
+                    </a>
+                    <div>
+                        <p class="text-sm font-bold mb-3">Follow me</p>
+                        <ul class="flex flex-wrap gap-2 text-sm">
+                            <li><a href="https://github.com/" target="_blank" rel="noopener noreferrer" class="inline-flex px-3 py-1.5 rounded-md border border-ink/20 dark:border-cream/20 hover:bg-ink hover:text-cream dark:hover:bg-cream dark:hover:text-ink transition-colors">GitHub</a></li>
+                            <li><a href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer" class="inline-flex px-3 py-1.5 rounded-md border border-ink/20 dark:border-cream/20 hover:bg-ink hover:text-cream dark:hover:bg-cream dark:hover:text-ink transition-colors">LinkedIn</a></li>
+                            <li><a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" class="inline-flex px-3 py-1.5 rounded-md border border-ink/20 dark:border-cream/20 hover:bg-ink hover:text-cream dark:hover:bg-cream dark:hover:text-ink transition-colors">Instagram</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 이미지 파일이 없으면 data-fallback의 샘플 이미지를 보여줌 (main.js) -->
+                <div class="order-1 md:order-2 md:-ml-12">
+                    <img src="images/profile.jpg" data-fallback="https://placehold.co/800x900?text=Profile" alt="프로필 사진" class="w-full aspect-[4/5] object-cover bg-ink/10 dark:bg-cream/10 shadow-xl">
+                </div>
+            </div>
+        </section>
+
+        <!-- 경력 -->
+        <section id="experience" class="scroll-mt-20 py-20 md:py-28 border-t border-ink/15 dark:border-cream/15">
+            <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight mb-12">
+                <span aria-hidden="true" class="block w-12 h-1.5 bg-ink dark:bg-cream mb-5"></span>
+                경력
+            </h2>
+
+            <div class="space-y-10">
+                <article class="grid gap-4 md:grid-cols-[200px_1fr] md:gap-10 pb-10 border-b border-ink/15 dark:border-cream/15">
+                    <p class="text-sm font-medium text-ink/60 dark:text-cream/60">2022.03 ~ 2024.02</p>
+                    <div>
+                        <h3 class="text-xl font-bold">예시 회사 A</h3>
+                        <p class="text-sm font-semibold mb-4">프론트엔드 개발자</p>
+                        <ul class="list-disc pl-5 space-y-2 text-ink/70 dark:text-cream/70">
+                            <li>웹 서비스 화면 개발 및 유지보수</li>
+                            <li>반응형 레이아웃 적용으로 모바일 사용성 개선</li>
+                            <li>팀 코드 리뷰와 화면 품질 점검 참여</li>
+                        </ul>
+                    </div>
+                </article>
+
+                <article class="grid gap-4 md:grid-cols-[200px_1fr] md:gap-10">
+                    <p class="text-sm font-medium text-ink/60 dark:text-cream/60">2024.03 ~ 현재</p>
+                    <div>
+                        <h3 class="text-xl font-bold">예시 회사 B</h3>
+                        <p class="text-sm font-semibold mb-4">웹 개발자</p>
+                        <ul class="list-disc pl-5 space-y-2 text-ink/70 dark:text-cream/70">
+                            <li>사내 관리 도구 기능 개발</li>
+                            <li>페이지 로딩 속도 점검 및 개선</li>
+                        </ul>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- 프로젝트 -->
+        <section id="projects" class="scroll-mt-20 py-20 md:py-28 border-t border-ink/15 dark:border-cream/15">
+            <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight mb-12">
+                <span aria-hidden="true" class="block w-12 h-1.5 bg-ink dark:bg-cream mb-5"></span>
+                프로젝트
+            </h2>
+
+            <div class="grid gap-6 md:grid-cols-3">
+                <article class="group flex flex-col border border-ink/15 dark:border-cream/15 bg-white/60 dark:bg-white/5 p-5 transition duration-300 hover:-translate-y-1 hover:shadow-xl">
+                    <img src="images/project-1.jpg" data-fallback="https://placehold.co/600x400?text=Project+1" alt="할 일 관리 앱 화면 예시" class="w-full aspect-[3/2] object-cover mb-5 bg-ink/10 dark:bg-cream/10">
+                    <p class="text-xs font-medium text-ink/60 dark:text-cream/60 mb-1">2023.05 ~ 2023.07</p>
+                    <h3 class="text-lg font-bold mb-2">예시 프로젝트 1: 할 일 관리 앱</h3>
+                    <p class="text-sm leading-relaxed text-ink/70 dark:text-cream/70 mb-5">할 일을 추가하고 완료 여부를 관리하는 간단한 웹 앱입니다.</p>
+                    <div class="mt-auto flex flex-wrap gap-2">
+                        <span class="px-2.5 py-0.5 text-xs font-medium rounded-full border border-ink/30 dark:border-cream/30">HTML</span>
+                        <span class="px-2.5 py-0.5 text-xs font-medium rounded-full border border-ink/30 dark:border-cream/30">JavaScript</span>
+                    </div>
+                </article>
+
+                <article class="group flex flex-col border border-ink/15 dark:border-cream/15 bg-white/60 dark:bg-white/5 p-5 transition duration-300 hover:-translate-y-1 hover:shadow-xl">
+                    <img src="images/project-2.jpg" data-fallback="https://placehold.co/600x400?text=Project+2" alt="개인 블로그 화면 예시" class="w-full aspect-[3/2] object-cover mb-5 bg-ink/10 dark:bg-cream/10">
+                    <p class="text-xs font-medium text-ink/60 dark:text-cream/60 mb-1">2023.09 ~ 2023.11</p>
+                    <h3 class="text-lg font-bold mb-2">예시 프로젝트 2: 개인 블로그</h3>
+                    <p class="text-sm leading-relaxed text-ink/70 dark:text-cream/70 mb-5">글 목록과 상세 페이지를 제공하는 정적 블로그입니다.</p>
+                    <div class="mt-auto flex flex-wrap gap-2">
+                        <span class="px-2.5 py-0.5 text-xs font-medium rounded-full border border-ink/30 dark:border-cream/30">HTML</span>
+                        <span class="px-2.5 py-0.5 text-xs font-medium rounded-full border border-ink/30 dark:border-cream/30">Tailwind CSS</span>
+                    </div>
+                </article>
+
+                <article class="group flex flex-col border border-ink/15 dark:border-cream/15 bg-white/60 dark:bg-white/5 p-5 transition duration-300 hover:-translate-y-1 hover:shadow-xl">
+                    <img src="images/project-3.jpg" data-fallback="https://placehold.co/600x400?text=Project+3" alt="날씨 조회 페이지 화면 예시" class="w-full aspect-[3/2] object-cover mb-5 bg-ink/10 dark:bg-cream/10">
+                    <p class="text-xs font-medium text-ink/60 dark:text-cream/60 mb-1">2024.01 ~ 2024.02</p>
+                    <h3 class="text-lg font-bold mb-2">예시 프로젝트 3: 날씨 조회 페이지</h3>
+                    <p class="text-sm leading-relaxed text-ink/70 dark:text-cream/70 mb-5">지역을 고르면 날씨 정보를 보여주는 페이지입니다.</p>
+                    <div class="mt-auto flex flex-wrap gap-2">
+                        <span class="px-2.5 py-0.5 text-xs font-medium rounded-full border border-ink/30 dark:border-cream/30">JavaScript</span>
+                        <span class="px-2.5 py-0.5 text-xs font-medium rounded-full border border-ink/30 dark:border-cream/30">Fetch API</span>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- 기술 스택 -->
+        <section id="skills" class="scroll-mt-20 py-20 md:py-28 border-t border-ink/15 dark:border-cream/15">
+            <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight mb-12">
+                <span aria-hidden="true" class="block w-12 h-1.5 bg-ink dark:bg-cream mb-5"></span>
+                기술 스택
+            </h2>
+            <ul class="flex flex-wrap gap-3">
+                <li class="px-4 py-2 rounded-full border border-ink/30 dark:border-cream/30 text-sm font-medium">HTML</li>
+                <li class="px-4 py-2 rounded-full border border-ink/30 dark:border-cream/30 text-sm font-medium">CSS</li>
+                <li class="px-4 py-2 rounded-full border border-ink/30 dark:border-cream/30 text-sm font-medium">JavaScript</li>
+                <li class="px-4 py-2 rounded-full border border-ink/30 dark:border-cream/30 text-sm font-medium">Tailwind CSS</li>
+                <li class="px-4 py-2 rounded-full border border-ink/30 dark:border-cream/30 text-sm font-medium">Git</li>
+            </ul>
+        </section>
+
+        <!-- 연락처 (SNS 포함) -->
+        <section id="contact" class="scroll-mt-20 py-20 md:py-28 border-t border-ink/15 dark:border-cream/15">
+            <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight mb-12">
+                <span aria-hidden="true" class="block w-12 h-1.5 bg-ink dark:bg-cream mb-5"></span>
+                연락처
+            </h2>
+
+            <div class="grid gap-10 md:grid-cols-2 md:items-end">
+                <div>
+                    <p class="text-ink/70 dark:text-cream/70 mb-3">새로운 기회나 협업 제안은 언제든 환영합니다.</p>
+                    <a href="mailto:example@example.com" class="text-2xl md:text-3xl font-bold break-all hover:underline underline-offset-8">example@example.com</a>
+                </div>
+
+                <div>
+                    <p class="text-sm font-bold mb-3">SNS</p>
+                    <ul class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                        <li>
+                            <a href="https://github.com/" target="_blank" rel="noopener noreferrer" class="block text-center px-4 py-3 rounded-md border border-ink/20 dark:border-cream/20 text-sm font-medium hover:bg-ink hover:text-cream dark:hover:bg-cream dark:hover:text-ink transition-colors">GitHub</a>
+                        </li>
+                        <li>
+                            <a href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer" class="block text-center px-4 py-3 rounded-md border border-ink/20 dark:border-cream/20 text-sm font-medium hover:bg-ink hover:text-cream dark:hover:bg-cream dark:hover:text-ink transition-colors">YouTube</a>
+                        </li>
+                        <li>
+                            <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" class="block text-center px-4 py-3 rounded-md border border-ink/20 dark:border-cream/20 text-sm font-medium hover:bg-ink hover:text-cream dark:hover:bg-cream dark:hover:text-ink transition-colors">Instagram</a>
+                        </li>
+                        <li>
+                            <a href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer" class="block text-center px-4 py-3 rounded-md border border-ink/20 dark:border-cream/20 text-sm font-medium hover:bg-ink hover:text-cream dark:hover:bg-cream dark:hover:text-ink transition-colors">LinkedIn</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="max-w-6xl mx-auto px-6 py-8 border-t border-ink/15 dark:border-cream/15 text-center text-sm text-ink/60 dark:text-cream/60">
+        &copy; 2026 홍길동. 예시 이력서입니다.
+    </footer>
+
+    <script src="js/main.js" defer></script>
+</body>
+</html>

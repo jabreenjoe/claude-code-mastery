@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>계산기</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // 디자인 토큰: index.html과 동일하게 cream, ink 재사용
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        cream: '#F3F6EC',
+                        ink: '#2B3640'
+                    },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif']
+                    }
+                }
+            }
+        };
+    </script>
+</head>
+<body class="bg-cream text-ink dark:bg-ink dark:text-cream font-sans antialiased min-h-screen flex items-center justify-center p-4">
+
+    <main class="w-full max-w-xs">
+        <!-- 디스플레이: 이전 수식 + 현재 입력 -->
+        <div class="rounded-md border border-ink/20 dark:border-cream/20 p-4 mb-4 text-right overflow-hidden">
+            <div id="expression" class="h-5 text-sm text-ink/60 dark:text-cream/60 truncate"></div>
+            <div id="display" class="text-4xl font-bold truncate" aria-live="polite">0</div>
+        </div>
+
+        <!-- 버튼 패드: data-action / data-value로 동작 구분 -->
+        <div id="keypad" class="grid grid-cols-4 gap-2">
+            <button data-action="clear" class="btn-key col-span-2">AC</button>
+            <button data-action="backspace" class="btn-key">⌫</button>
+            <button data-action="operator" data-value="/" class="btn-op">÷</button>
+
+            <button data-action="digit" data-value="7" class="btn-key">7</button>
+            <button data-action="digit" data-value="8" class="btn-key">8</button>
+            <button data-action="digit" data-value="9" class="btn-key">9</button>
+            <button data-action="operator" data-value="*" class="btn-op">×</button>
+
+            <button data-action="digit" data-value="4" class="btn-key">4</button>
+            <button data-action="digit" data-value="5" class="btn-key">5</button>
+            <button data-action="digit" data-value="6" class="btn-key">6</button>
+            <button data-action="operator" data-value="-" class="btn-op">−</button>
+
+            <button data-action="digit" data-value="1" class="btn-key">1</button>
+            <button data-action="digit" data-value="2" class="btn-key">2</button>
+            <button data-action="digit" data-value="3" class="btn-key">3</button>
+            <button data-action="operator" data-value="+" class="btn-op">+</button>
+
+            <button data-action="digit" data-value="0" class="btn-key col-span-2">0</button>
+            <button data-action="decimal" class="btn-key">.</button>
+            <button data-action="equals" class="btn-op">=</button>
+        </div>
+    </main>
+
+    <style type="text/tailwindcss">
+        @layer components {
+            .btn-key {
+                @apply py-4 text-lg font-semibold rounded-md border border-ink/20 dark:border-cream/20
+                       hover:bg-ink/5 dark:hover:bg-cream/10 active:scale-95 transition;
+            }
+            .btn-op {
+                @apply py-4 text-lg font-semibold rounded-md bg-ink text-cream dark:bg-cream dark:text-ink
+                       hover:opacity-85 active:scale-95 transition;
+            }
+        }
+    </style>
+
+    <script>
+        // 계산기 상태: 이전 값, 연산자, 현재 입력, 새 입력 대기 여부
+        const state = {
+            previous: null,
+            operator: null,
+            current: '0',
+            overwrite: false
+        };
+
+        const displayEl = document.getElementById('display');
+        const expressionEl = document.getElementById('expression');
+        const symbols = { '+': '+', '-': '−', '*': '×', '/': '÷' };
+
+        // 두 숫자와 연산자로 결과를 계산합니다.
+        function calculate(a, b, operator) {
+            // TODO(human): 연산자(+, -, *, /)별 계산을 구현하세요.
+            // - 나눗셈에서 b가 0일 때의 처리 방식을 정하세요 (예: null 반환 → 호출부에서 "오류" 표시)
+            // - 0.1 + 0.2 같은 부동소수점 오차를 어떻게 다룰지도 고려해 보세요.
+            return b;
+        }
+
+        function render() {
+            displayEl.textContent = state.current;
+            expressionEl.textContent = state.operator
+                ? `${state.previous} ${symbols[state.operator]}`
+                : '';
+        }
+
+        function inputDigit(digit) {
+            state.current = (state.overwrite || state.current === '0') ? digit : state.current + digit;
+            state.overwrite = false;
+        }
+
+        function inputDecimal() {
+            if (state.overwrite) { state.current = '0'; state.overwrite = false; }
+            if (!state.current.includes('.')) state.current += '.';
+        }
+
+        function chooseOperator(operator) {
+            // 연속 연산: 이미 대기 중인 연산이 있으면 먼저 계산
+            if (state.operator && !state.overwrite) evaluate();
+            state.previous = state.current;
+            state.operator = operator;
+            state.overwrite = true;
+        }
+
+        function evaluate() {
+            if (!state.operator) return;
+            const result = calculate(parseFloat(state.previous), parseFloat(state.current), state.operator);
+            state.current = result === null ? '오류' : String(result);
+            state.previous = null;
+            state.operator = null;
+            state.overwrite = true;
+        }
+
+        function clearAll() {
+            Object.assign(state, { previous: null, operator: null, current: '0', overwrite: false });
+        }
+
+        function backspace() {
+            if (state.overwrite || state.current === '오류') return clearAll();
+            state.current = state.current.length > 1 ? state.current.slice(0, -1) : '0';
+        }
+
+        // 이벤트 위임: 키패드 하나에만 리스너를 달아 모든 버튼 처리
+        document.getElementById('keypad').addEventListener('click', (e) => {
+            const btn = e.target.closest('button');
+            if (!btn) return;
+            if (state.current === '오류' && btn.dataset.action !== 'clear') clearAll();
+
+            const { action, value } = btn.dataset;
+            if (action === 'digit') inputDigit(value);
+            else if (action === 'decimal') inputDecimal();
+            else if (action === 'operator') chooseOperator(value);
+            else if (action === 'equals') evaluate();
+            else if (action === 'backspace') backspace();
+            else if (action === 'clear') clearAll();
+            render();
+        });
+
+        // 키보드 입력 지원
+        document.addEventListener('keydown', (e) => {
+            const selector =
+                /^[0-9]$/.test(e.key) ? `[data-action="digit"][data-value="${e.key}"]` :
+                '+-*/'.includes(e.key) ? `[data-action="operator"][data-value="${e.key}"]` :
+                e.key === '.' ? '[data-action="decimal"]' :
+                (e.key === 'Enter' || e.key === '=') ? '[data-action="equals"]' :
+                e.key === 'Backspace' ? '[data-action="backspace"]' :
+                e.key === 'Escape' ? '[data-action="clear"]' : null;
+            if (selector) { e.preventDefault(); document.querySelector(selector).click(); }
+        });
+    </script>
+</body>
+</html>
